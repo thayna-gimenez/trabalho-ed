@@ -1,9 +1,12 @@
+#ifndef __LIBHASH__
+#define __LIBHASH__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 
-// criando a hash
+// criando hash genérica
 typedef struct {
     uintptr_t *tabela;
     int tam;
@@ -12,3 +15,10 @@ typedef struct {
     char * (*get_key)(void *);
 } tHash;
 
+// funções da hash
+int inicializar_hash(tHash *hash, int nbuckets, char * (*get_key)(void *));
+uint32_t hashf(const char* str, uint32_t h);
+int mod_chave(uint32_t chave, int tam_hash);
+int hashing_duplo(const char *chave, int tentativas, int tam_hash);
+
+#endif

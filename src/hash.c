@@ -1,3 +1,5 @@
+// funções da hash
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +10,7 @@
 #define SEED 0x12345678
 
 // cnstruindo a hash
-void inicializar_hash(tHash *hash, int nbuckets, char * (*get_key)(void *)){
+int inicializar_hash(tHash *hash, int nbuckets, char * (*get_key)(void *)){
     hash->tabela = calloc(sizeof(void *), nbuckets);
 
     // se nbuckets = 0;
@@ -18,7 +20,7 @@ void inicializar_hash(tHash *hash, int nbuckets, char * (*get_key)(void *)){
     hash->max = nbuckets;
     hash->tam = 0;
     hash->deletado = (uintptr_t)&(hash->tam);
-    hash->get_key = get_key;
+    hash->get_key = get_key; // puxa a chave do usuário
 
     return EXIT_SUCCESS;
 }
@@ -36,6 +38,7 @@ uint32_t hashf(const char* str, uint32_t h){
     return h;
 }
 
+// função pra facilitar
 int mod_chave(uint32_t chave, int tam_hash){
     return chave % tam_hash;
 }
