@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 #include "../include/libhash.h"
+#include "../include/libstruct.h"
 
 #define TAM_HASH 15877 // numero primo
 #define SEED 0x12345678
@@ -46,7 +47,7 @@ int mod_chave(uint32_t chave, int tam_hash){
 // hashing duplo
 int hashing_duplo(const char *chave, int tentativas, int tam_hash){
     int hash1 = mod_chave(hashf(chave, SEED), TAM_HASH); // posição inicial do elemento
-    int hash2 = mod_chave(hashf(chave, SEED), TAM_HASH); // calcular os deslocamentos em relação à posição inicial (no caso de uma colisão)
+    int hash2 = mod_chave(hashf(chave, SEED), TAM_HASH - 1) + 1; // calcular os deslocamentos em relação à posição inicial (no caso de uma colisão)
     
     return (hash1 + tentativas * hash2) % tam_hash;
 }

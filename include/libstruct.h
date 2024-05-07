@@ -1,9 +1,11 @@
+#ifndef __LIBSTRUCT__
+#define __LIBSTRUCT__
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include "../include/libhash.h"
 
 // criando hash específica
 typedef struct {
@@ -18,18 +20,4 @@ typedef struct {
     char fuso_horario[35];
 } tMunicipio;
 
-
-// definindo que a chave do usuário é codigo_ibge
-char *get_key(void *reg){
-    return (*((tMunicipio *)reg)).codigo_ibge;
-}
-
-void aloca_cidade(tMunicipio **cidade){
-    malloc
-}
-
-int main(){
-    tHash hash;
-
-    inicializar_hash(&hash, 15877, get_key);
-}
+#endif

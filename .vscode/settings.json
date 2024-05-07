@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "libhash.h": "c"
+        "libhash.h": "c",
+        "stdint.h": "c"
     }
 }
