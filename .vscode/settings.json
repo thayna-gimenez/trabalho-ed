@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "libhash.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "libstruct.h": "c",
+        "assert.h": "c",
+        "string.h": "c",
+        "libparser.h": "c"
     }
 }

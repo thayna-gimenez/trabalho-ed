@@ -20,4 +20,6 @@ typedef struct {
     char fuso_horario[35];
 } tMunicipio;
 
+void aloca_cidade(tMunicipio **cidade);
+
 #endif
