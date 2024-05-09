@@ -1,3 +1,4 @@
+// funções para a struct específica 
 #ifndef __LIBSTRUCT__
 #define __LIBSTRUCT__
 
@@ -7,7 +8,7 @@
 #include <assert.h>
 #include <string.h>
 
-// criando hash específica
+// criando struct específica
 typedef struct {
     char codigo_ibge[10];
     char nome[30];

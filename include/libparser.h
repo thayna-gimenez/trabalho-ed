@@ -8,8 +8,9 @@
 #include <string.h>
 #include "libstruct.h"
 #include "libhash.h"
+#include "libabb.h"
 
 
-void leitor(FILE *arquivo, tHash *hash);
+void leitor(FILE *arquivo, tHash *hash, tArv *arv);
 
 #endif

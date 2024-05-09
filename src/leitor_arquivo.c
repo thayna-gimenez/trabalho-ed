@@ -4,6 +4,7 @@
 #include "../include/libstruct.h"
 #include "../include/libparser.h"
 #include "../include/libhash.h"
+#include "../include/libabb.h"
 
 #define TAM_LINHA 1024
 
@@ -16,7 +17,7 @@ void substituir_virgula(char *inicio_linha){
             }
 }
 
-void leitor(FILE *arquivo, tHash *hash){
+void leitor(FILE *arquivo, tHash *hash, tArv *arv){
     char linha[TAM_LINHA];
     tMunicipio *cidade;
 
@@ -115,6 +116,8 @@ void leitor(FILE *arquivo, tHash *hash){
             strcpy(cidade->fuso_horario, inicio);
 
             inserir_hash(hash, cidade);
+            inserir_abb(arv, cidade);
+            
         }
         
     }
