@@ -8,7 +8,7 @@
 #include "../include/libhash.h"
 #include "../include/libstruct.h"
 #include "../include/libparser.h"
-#include "../include/libabb.h"
+#include "../include/libkdtree.h"
 
 // definindo que a chave do usuário é codigo_ibge
 char *get_key(void *reg){
@@ -20,7 +20,7 @@ void aloca_cidade(tMunicipio **cidade){
     *cidade = (tMunicipio*) malloc(sizeof(tMunicipio));
 }
 
-// função para comparar na hora de inserir na abb
+// função para comparar na hora de inserir na kdtree
 // para ver se o nó vai para a esquerda ou para a direita
 double cmp(void *reg1, void *reg2, int nivel){
     if (nivel % 2 == 0)
@@ -29,12 +29,12 @@ double cmp(void *reg1, void *reg2, int nivel){
         return ((tMunicipio *) reg1)->longitude - ((tMunicipio *) reg2)->longitude;
 }
 
-int distancia(void *reg1, void *reg2){
+double distancia(void *reg1, void *reg2){
     double x = pow(((tMunicipio *) reg2)->latitude - ((tMunicipio *) reg1)->latitude, 2);
     double y = pow(((tMunicipio *) reg2)->longitude - ((tMunicipio *) reg1)->longitude, 2);
 
     return  x + y;
-}   
+}
 
 int main(){
     tHash hash;
@@ -43,7 +43,7 @@ int main(){
     char codigo[10];
 
     inicializar_hash(&hash, 15877, get_key);
-    inicializar_abb(&arv, cmp);
+    inicializar_kdtree(&arv, cmp, distancia);
 
     FILE *arquivo = fopen("municipios.json", "r");
     leitor(arquivo, &hash, &arv);
@@ -58,7 +58,7 @@ int main(){
         scanf("%s", codigo);
 
         tMunicipio *cidade_hash = buscar_hash(hash, codigo);
-        tMunicipio *cidade = buscar_abb(&arv, cidade_hash);
+        tMunicipio *cidade = buscar_kdtree(&arv, cidade_hash);
         
         printf("Código IBGE: %s\n", cidade->codigo_ibge);
         printf("Cidade: %s\n", cidade->nome);
