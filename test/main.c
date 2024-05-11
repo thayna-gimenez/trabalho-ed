@@ -9,6 +9,7 @@
 #include "../include/libstruct.h"
 #include "../include/libparser.h"
 #include "../include/libkdtree.h"
+#include "../include/libheap.h"
 
 // definindo que a chave do usuário é codigo_ibge
 char *get_key(void *reg){
@@ -23,32 +24,33 @@ void aloca_cidade(tMunicipio **cidade){
 // função para comparar na hora de inserir na kdtree
 // para ver se o nó vai para a esquerda ou para a direita
 double cmp(void *reg1, void *reg2, int nivel){
-    if (nivel % 2 == 0)
-        return ((tMunicipio *) reg1)->latitude - ((tMunicipio *) reg2)->latitude;
-    else
-        return ((tMunicipio *) reg1)->longitude - ((tMunicipio *) reg2)->longitude;
-}
+    double retorno;
+    if (nivel % 2 == 0){
+        retorno = ((tMunicipio *) reg1)->latitude - ((tMunicipio *) reg2)->latitude;
+    }
+    else {
+        retorno = ((tMunicipio *) reg1)->longitude - ((tMunicipio *) reg2)->longitude;
+    }
 
-double distancia(void *reg1, void *reg2){
-    double x = pow(((tMunicipio *) reg2)->latitude - ((tMunicipio *) reg1)->latitude, 2);
-    double y = pow(((tMunicipio *) reg2)->longitude - ((tMunicipio *) reg1)->longitude, 2);
-
-    return  x + y;
+    return retorno;
 }
 
 int main(){
     tHash hash;
-    tArv arv;
-    int opcao;
+    tArv *arv = (tArv *) malloc(sizeof(tArv));
+    tHeap *heap = (tHeap *) malloc(sizeof(tHeap));
+    //tHeap heap;
+    int opcao, n;
     char codigo[10];
 
     inicializar_hash(&hash, 15877, get_key);
-    inicializar_kdtree(&arv, cmp, distancia);
+    inicializar_kdtree(arv, cmp);
 
     FILE *arquivo = fopen("municipios.json", "r");
-    leitor(arquivo, &hash, &arv);
+    leitor(arquivo, &hash, arv);
 
     printf("1 - Consulta de cidade por código IBGE\n");
+    printf("2 - Consulta de n cidades mais próximas pelo código IBGE\n");
     printf("Digite a opção desejada: ");
 
     scanf("%d", &opcao);
@@ -57,8 +59,7 @@ int main(){
         printf("\nInsira o código da cidade a ser consultada: ");
         scanf("%s", codigo);
 
-        tMunicipio *cidade_hash = buscar_hash(hash, codigo);
-        tMunicipio *cidade = buscar_kdtree(&arv, cidade_hash);
+        tMunicipio *cidade = buscar_hash(hash, codigo);
         
         printf("Código IBGE: %s\n", cidade->codigo_ibge);
         printf("Cidade: %s\n", cidade->nome);
@@ -69,6 +70,26 @@ int main(){
         printf("Código SIAFI: %d\n", cidade->siafi_id);
         printf("DDD: %d\n", cidade->ddd);
         printf("Fuso horário: %s\n", cidade->fuso_horario);
+    }
+
+    else if (opcao == 2){
+        printf("\nInsira o código da cidade a ser consultada: ");
+        scanf("%s", codigo);
+
+        printf("\nInsira a quantidade de vizinhos a serem procurados: ");
+        scanf("%d", &n);
+
+        construir_heap(heap, n);
+
+        tMunicipio *cidade = buscar_hash(hash, codigo);
+        buscar_vizinho(arv, arv->raiz, heap, cidade, 0, n);
+
+        heapsort(heap);
+        imprimir_heap(heap);
+    }
+
+    else {
+        printf("tchau");
     }
     
 }
