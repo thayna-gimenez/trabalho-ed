@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+
 #include "libstruct.h"
 #include "libhash.h"
-#include "libabb.h"
+#include "libkdtree.h"
 
 
 void leitor(FILE *arquivo, tHash *hash, tArv *arv);

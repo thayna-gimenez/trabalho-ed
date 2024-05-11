@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "../include/libstruct.h"
 #include "../include/libparser.h"
 #include "../include/libhash.h"
-#include "../include/libabb.h"
+#include "../include/libkdtree.h"
 
 #define TAM_LINHA 1024
 
@@ -116,7 +117,7 @@ void leitor(FILE *arquivo, tHash *hash, tArv *arv){
             strcpy(cidade->fuso_horario, inicio);
 
             inserir_hash(hash, cidade);
-            inserir_abb(arv, cidade);
+            inserir_kdtree(arv, cidade);
             
         }
         
