@@ -12,6 +12,6 @@
 #include "libkdtree.h"
 
 
-void leitor(FILE *arquivo, tHash *hash, tArv *arv);
+void leitor(FILE *arquivo, tHash *hash_cidade, tHash *hash_nome, tArv *arv);
 
 #endif

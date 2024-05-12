@@ -27,6 +27,7 @@ void sobe_max(tHeap *heap, int no);
 int altera_prioridade(tHeap *heap, int no, double distancia, void * reg);
 void heapsort(tHeap *heap);
 void imprimir_heap(tHeap *heap);
+void apagar_heap(tHeap *heap);
 
 
 #endif

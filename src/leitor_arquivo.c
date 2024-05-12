@@ -12,13 +12,17 @@
 void substituir_virgula(char *inicio_linha){
     char *final = strpbrk(inicio_linha, ",");
 
-            // tirando a vírgula do final da linha
-            if (final != NULL){
-                *final = '\0';
+        // tirando a vírgula do final da linha
+        if (final != NULL){
+            *final = '\0';
+
+            if (*(final - 1) == '"'){
+                *(final - 1) = '\0';
             }
+        }
 }
 
-void leitor(FILE *arquivo, tHash *hash, tArv *arv){
+void leitor(FILE *arquivo, tHash *hash_cod, tHash *hash_nome, tArv *arv){
     char linha[TAM_LINHA];
     tMunicipio *cidade;
 
@@ -40,7 +44,7 @@ void leitor(FILE *arquivo, tHash *hash, tArv *arv){
 
         else if (strstr(linha, "nome") != NULL){
             char *inicio = strpbrk(linha, ":");
-            inicio += 2;
+            inicio += 3;
 
             substituir_virgula(inicio);
 
@@ -110,18 +114,18 @@ void leitor(FILE *arquivo, tHash *hash, tArv *arv){
 
         else if (strstr(linha, "fuso_horario") != NULL){
             char *inicio = strpbrk(linha, ":");
-            inicio += 2;
+            inicio += 3;
 
             substituir_virgula(inicio);
 
             strcpy(cidade->fuso_horario, inicio);
 
-            inserir_hash(hash, cidade);
+            inserir_hash(hash_cod, cidade);
+            inserir_hash(hash_nome, cidade);
             inserir_kdtree(arv, cidade);
             
         }
         
     }
-
 
 }

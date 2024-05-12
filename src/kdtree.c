@@ -17,7 +17,6 @@ double distancia(void *reg1, void *reg2){
 void inicializar_kdtree(tArv *arv, double (*cmp)(void *, void*, int)){
     arv->raiz = NULL;
     arv->cmp = cmp;
-    //arv->distancia = distancia;
 }
 
 // vai comparando nós até adicionar o reg, a partir da raíz da árvore
@@ -57,18 +56,13 @@ void buscar_vizinho(tArv *arv, tNode *node, tHeap *heap, void *reg, int nivel, i
         
             altera_prioridade(heap, 0, dist, node->reg);
         }
-        
-        // if (arv->cmp(node->reg, reg, nivel) > 0) { // vai para a esquerda
-        //     prox_node = node->esq;
-        //     outro_node = node->dir;
-        // }
-
-        // else { // vai para a direita
-        //     prox_node = node->dir;
-        //     outro_node = node->esq;
-        // }
 
         buscar_vizinho(arv, node->esq, heap, reg, ++nivel, n);
         buscar_vizinho(arv, node->dir, heap, reg, ++nivel, n);
     }
+}
+
+void apagar_kdtree(tArv *arv){
+    free(arv->raiz);
+    free(arv);
 }

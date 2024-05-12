@@ -22,5 +22,7 @@ int mod_chave(uint32_t chave, int tam_hash);
 int hashing_duplo(const char *chave, int tentativas, int tam_hash);
 int inserir_hash(tHash *hash, void *bucket);
 void * buscar_hash(tHash hash, const char *chave);
+void * buscar_hash_nomes(tHash hash, const char *chave);
+void apagar_hash(tHash *hash);
 
 #endif

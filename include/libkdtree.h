@@ -24,5 +24,6 @@ void inicializar_kdtree(tArv *arv, double (*cmp)(void *, void*, int));
 void inserir_node(tArv *arv, tNode **node, void *reg, int nivel);
 void inserir_kdtree(tArv *arv, void *reg);
 void buscar_vizinho(tArv *arv, tNode *node, tHeap *heap, void *reg, int nivel, int n);
+void apagar_kdtree(tArv *arv);
 
 #endif

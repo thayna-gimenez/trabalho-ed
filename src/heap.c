@@ -113,9 +113,15 @@ void heapsort(tHeap *heap){
 }
 
 void imprimir_heap(tHeap *heap){
+    printf("\nCidades vizinhas:\n");
     for (int i = 0; i < heap->tam; i++){
         printf("\nCódigo IBGE: %s\n", heap->vetor[i].reg->codigo_ibge);
         printf("Cidade: %s\n", heap->vetor[i].reg->nome);
     }
+}
+
+void apagar_heap(tHeap *heap){
+    free(heap->vetor);
+    free(heap);
 }
 

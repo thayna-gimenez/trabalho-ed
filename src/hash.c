@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+
 #include "../include/libhash.h"
 #include "../include/libstruct.h"
 
@@ -49,7 +50,7 @@ int hashing_duplo(const char *chave, int tentativas, int max_hash){
     int hash1 = mod_chave(hashf(chave, SEED), max_hash); // posição inicial do elemento
     int hash2 = mod_chave(hashf(chave, SEED), max_hash - 1) + 1; // calcular os deslocamentos em relação à posição inicial (no caso de uma colisão)
     
-    return (hash1 + tentativas * hash2) % max_hash;
+    return abs((hash1 + tentativas * hash2) % max_hash);
 }
 
 int inserir_hash(tHash *hash, void *bucket){
@@ -85,14 +86,37 @@ void * buscar_hash(tHash hash, const char *chave){
 
     while(hash.tabela[pos] != 0 && retorno == NULL){
         if (strcmp(hash.get_key((void *) hash.tabela[pos]), chave) == 0){
-            retorno = (void *) hash.tabela[pos];
+            retorno = (void *) hash.tabela[pos];      
         }
 
         else {
             pos = hashing_duplo(chave, ++tentativas, TAM_HASH);
         }
-    }
+    } 
 
     return retorno;
 }
 
+void * buscar_hash_nomes(tHash hash, const char *chave){
+    int tentativas = 0;
+    int pos = hashing_duplo(chave, tentativas, TAM_HASH);
+    void **vetor = calloc(5, sizeof(void *));
+    int i = 0;
+
+    while(hash.tabela[pos] != 0){
+        if (strcmp(hash.get_key((void *) hash.tabela[pos]), chave) == 0){
+            vetor[i] = (void *) hash.tabela[pos];
+            i++;
+
+        }
+
+        pos = hashing_duplo(chave, ++tentativas, TAM_HASH);
+    }
+
+    return vetor;
+}
+
+void apagar_hash(tHash *hash){
+    free(hash->tabela);
+    free(hash);
+}
